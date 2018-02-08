@@ -1,0 +1,3 @@
+obj/ft_printf/check.o: src/ft_printf/check.c inc/ft_printf.h \
+  inc/libft_int.h inc/libft_mem.h inc/libft_str.h inc/libft_put.h \
+  inc/libft_clear.h
