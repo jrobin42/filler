@@ -6,25 +6,34 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 09:36:06 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/08 20:24:51 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/15 16:29:54 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-void	put_piece(t_map *map, t_player *first_p, t_player *second_p)
+void	parse_piece(t_piece *piece)
 {
-	(void)map;
-	(void)first_p;
-	(void)second_p;
-	return ;
+	int		index_line;
+	char	*line;
+
+//	int fd = open("./hop", O_RDWR | O_TRUNC);
+	index_line = 0;
+	get_next_line(0, &line);
+//	dprintf(2, "%s\n", line);
+	piece->max_y = ft_atoi(line + 6);
+	piece->piece = ft_memalloc((piece->max_y + 1) * sizeof(char*));
+	while (index_line < piece->max_y)
+	{
+		get_next_line(0, &line);
+//	dprintf(2, "%s\n", line);
+		*(piece->piece + index_line) = line;
+		++index_line;
+	}
 }
 
-void	parse_piece()
+void	put_piece(t_piece *piece, t_map *map)
 {
-	//t_piece		*piece;
-
-	//piece = ft_memalloc(sizeof(t_piece));
-	/////////gnl et recup max x max y, foutre les * en haut idem que fillit
-	return ;
+	(void)piece;
+	(void)map;
 }

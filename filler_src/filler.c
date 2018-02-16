@@ -6,56 +6,98 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 10:32:43 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/08 21:50:06 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/15 18:12:51 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-void	filler(t_player *first_p, t_player *second_p, t_env *env)
+void	parse_map(t_map *map)
 {
-	int		i;
 	int		index_line;
 	char	*line;
-//	char	*size_map_y;
-	t_map	map;
 
 	index_line = 0;
-	i = 8;
-	env->player = first_p;
+//	int fd = open("./hop", O_RDWR | O_TRUNC);
 	get_next_line(0, &line);
-	map.max_x = ft_atoi(line + 8);
-/*	while (ft_isdigit(line + i))
-		++i;
-	size_map_y = ft_atoi(line + i); //char *map : pas utile de connaitre position max --> strdup de chacune des ligne ds parse_map
-	map.max_y = ft_atoi(line + 8);*/
-	i = map.max_x + 1;
-	map.map = ft_memalloc((map.max_x + 1) * sizeof(char*));
-	while (--i && index_line++ && !env->player->last_pos)			//indexline == 0 au 1er passage ?
+//	dprintf(2, "%s\n", line);
+	map->max_y = ft_atoi(line + 8);
+	MAP = ft_memalloc((map->max_y + 1) * sizeof(char*));
+
+	get_next_line(0, &line);
+//	dprintf(2, "%s\n", line);
+	while (index_line < map->max_y)
 	{
 		get_next_line(0, &line);
-		if (parse_map(line, index_line, &map, env->player))
-		{
-			env->player = second_p;
-			++i;						//au cas ou X et O sur une meme ligne
-		}
+//	dprintf(2, "%s\n", line);
+		*(MAP + index_line) = line + 4;
+		++index_line;
 	}
-	map.max_y = ft_strlen((map.map[0]));
-	parse_piece();
-	put_piece(&map, first_p, second_p);
-//free(map.map) (char**)
+	map->max_x = ft_strlen(*MAP) - 1;
+	map->max_y = map->max_y - 1;
+}
+
+void	get_char_player(t_player *my_p, t_player *bad_p)
+{
+	char	*line;
+
+	get_next_line(0, &line);
+//	int fd = open("./hop", O_RDWR | O_TRUNC);
+//	dprintf(2, "%s\n", line);
+	my_p->char_player = *(line + 10) == '1' ? 'O' : 'X';
+	bad_p->char_player = my_p->char_player == 'X' ? 'O' : 'X';
+}
+
+void	get_pos_player(t_player *my_p, t_player *bad_p, t_map *map)
+{
+	int		i;
+	char	*position;
+
+	i = 0;
+	ft_memset(my_p->last_pos, 0, 2);
+	ft_memset(bad_p->last_pos, 0, 2);
+	while (*(MAP + i) && (!*(my_p->last_pos) || !*(bad_p->last_pos)))
+	{
+		if ((position = ft_strchr(*(MAP + i), my_p->char_player)))
+		{
+			*(my_p->last_pos) = position - *(MAP + i);
+			*(my_p->last_pos + 1) = i;
+			printf("x = %d y = %d\n", *my_p->last_pos, *(my_p->last_pos + 1));
+		}
+		if ((position = ft_strchr(*(MAP + i), bad_p->char_player)))
+		{
+			*(bad_p->last_pos) = position - *(MAP + i);
+			*(bad_p->last_pos + 1) = i;
+		}
+		++i;
+	}
 }
 
 int		main(void)
 {
-	char	*line;
-	t_player	first_p;
-	t_player	second_p;
-	t_env		env;
+	t_player	my_p;
+	t_player	bad_p;
+	t_piece		piece;
+	t_map		map;
 
-	get_next_line(0, &line);
-	first_p.char_player = *(line + 10) == '1' ? 'X' : 'O';
-	second_p.char_player = first_p.char_player == 'X' ? 'O' : 'X';
-	filler(&first_p, &second_p, &env);
+	get_char_player(&my_p, &bad_p);
+//	while (1)
+	{
+	parse_map(&map);
+	get_pos_player(&my_p, &bad_p, &map);
+	parse_piece(&piece);
+	prepare_map(&map, &my_p, &bad_p);
+	//if (put_piece(&piece, &map))
+	//	break;
+	//else
+	//ft_printf(coord); 
+	}
 	return (0);
 }
+
+
+/*
+   if (parse_map(line + 4, index_line, &map, env->player))
+   env->player = second_p;
+   else
+   */	

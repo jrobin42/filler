@@ -6,11 +6,11 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/02/08 20:20:24 by jrobin           ###   ########.fr        #
+#    Updated: 2018/02/15 15:38:25 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME= filler
+NAME= jrobin.filler
 
 NAME_LIB= libft.a
 PATH_LIB= libft/
@@ -22,8 +22,8 @@ DIR_SRC:= filler_src/
 DIR_OBJ:= obj/
 
 SRC_BASE=	filler.c \
-			parse_map.c \
-			piece.c
+			piece.c \
+			parse_map.c
 
 PATH_INC=	inc/
 PATH_INC_LIB= libft/inc/
