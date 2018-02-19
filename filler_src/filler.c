@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 10:32:43 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/15 18:12:51 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/19 02:37:41 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,13 @@ void	parse_map(t_map *map)
 	char	*line;
 
 	index_line = 0;
-//	int fd = open("./hop", O_RDWR | O_TRUNC);
 	get_next_line(0, &line);
-//	dprintf(2, "%s\n", line);
 	map->max_y = ft_atoi(line + 8);
 	MAP = ft_memalloc((map->max_y + 1) * sizeof(char*));
-
 	get_next_line(0, &line);
-//	dprintf(2, "%s\n", line);
 	while (index_line < map->max_y)
 	{
 		get_next_line(0, &line);
-//	dprintf(2, "%s\n", line);
 		*(MAP + index_line) = line + 4;
 		++index_line;
 	}
@@ -42,8 +37,6 @@ void	get_char_player(t_player *my_p, t_player *bad_p)
 	char	*line;
 
 	get_next_line(0, &line);
-//	int fd = open("./hop", O_RDWR | O_TRUNC);
-//	dprintf(2, "%s\n", line);
 	my_p->char_player = *(line + 10) == '1' ? 'O' : 'X';
 	bad_p->char_player = my_p->char_player == 'X' ? 'O' : 'X';
 }
@@ -62,7 +55,6 @@ void	get_pos_player(t_player *my_p, t_player *bad_p, t_map *map)
 		{
 			*(my_p->last_pos) = position - *(MAP + i);
 			*(my_p->last_pos + 1) = i;
-			printf("x = %d y = %d\n", *my_p->last_pos, *(my_p->last_pos + 1));
 		}
 		if ((position = ft_strchr(*(MAP + i), bad_p->char_player)))
 		{
@@ -81,23 +73,16 @@ int		main(void)
 	t_map		map;
 
 	get_char_player(&my_p, &bad_p);
-//	while (1)
+	//while (1)
 	{
-	parse_map(&map);
-	get_pos_player(&my_p, &bad_p, &map);
-	parse_piece(&piece);
-	prepare_map(&map, &my_p, &bad_p);
-	//if (put_piece(&piece, &map))
-	//	break;
-	//else
-	//ft_printf(coord); 
+		parse_map(&map);
+		get_pos_player(&my_p, &bad_p, &map);
+		parse_piece(&piece);
+		prepare_heatmap(&map, &my_p, &bad_p);
+	//	if (put_piece(&piece, &map))
+	//		break;
+//		else
+//			ft_printf(coord); a faire ds put_piece ? quel est le plus clair pour le lecteur ? en plus cest pas else gne.
 	}
 	return (0);
 }
-
-
-/*
-   if (parse_map(line + 4, index_line, &map, env->player))
-   env->player = second_p;
-   else
-   */	

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 09:36:06 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/15 16:29:54 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/16 18:10:27 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ void	parse_piece(t_piece *piece)
 		*(piece->piece + index_line) = line;
 		++index_line;
 	}
+	piece->max_x = ft_strlen(line);
+	printf("x max %d y max%d %s\n", piece->max_x, piece->max_y, line);
 }
-
-void	put_piece(t_piece *piece, t_map *map)
+/*
+int		put_piece(t_piece *piece, t_map *map)
 {
-	(void)piece;
-	(void)map;
-}
+	return (1);
+	return (0);
+}*/

@@ -6,92 +6,132 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 08:29:07 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/16 13:21:41 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/19 08:06:42 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-void	up_walls_score(t_map *map, t_player *my_p)
-{
-	int		i;
-	int		j;
-	int		x;
-	int		y;
-
-	x = 0;
-	y = 0;
-	printf("*my_p [%d]  %s\n", *(my_p->last_pos + 1), *MAP);
-	while (MAP && MAP[y] && y <= *(my_p->last_pos + 1)) //besoin des 2 premieres conditions ?
-	{
-		i = 10;
-		j = 0;
-		while (MAP[y][x + j] && x + j <= MAX_X / 2 && i > 0)
-		{
-			MAP[y][x + j] += MAP[y][x + j] == '.' ? i : 0;
-			MAP[y][MAX_X - j] += MAP[y][MAX_X - j] == '.' ? i : 0;
-			i = y ? i - 2 : i;
-			++j;
-		}
-		printf("y = %d\n", y);
-		++y;
-	}
-}
-
-void	down_walls_score(t_map *map, t_player *my_p)
-{
-	int		i;
-	int		j;
-	int		x;
-	int		y;
-
-	x = 0;
-	y = 0;
-	printf("max y %d [%s]\n", MAX_Y, MAP[MAX_Y]);
-	while (MAP && MAP[MAX_Y - y] && MAX_Y - y >= *(my_p->last_pos + 1)) //besoin des 2 premieres conditions ?
-	{
-		i = 10;
-		j = 0;
-		while (MAP[MAX_Y - y][x + j] && x + j <= MAX_X / 2 && i > 0)
-		{
-			MAP[MAX_Y - y][x + j] += MAP[MAX_Y - y][x + j] == '.' ? i : 0;
-			MAP[MAX_Y - y][MAX_X - j] += MAP[MAX_Y - y][MAX_X - j] == '.' ? i : 0;
-			i = y ? i - 2 : i;
-			++j;
-		}
-		++y;
-	}
-	x = 1;
-	y = MAX_Y - 1;
-	i = 6;
-	j = 1;
-	while (i >= 0)
-	{
-		while (MAP[y][x + j])
-		{
-			MAP[y][x] = i;
-			++x;
-		}
-		i = i - 2;
-		++j;
-		++y;
-	}
-}
-
-void	prepare_map(t_map *map, t_player *my_p, t_player *bad_p)
+void	put_score_around_wall_if_adv(t_map *map)
 {
 	int		x;
 	int		y;
 
 	x = 0;
 	y = 0;
-	(void)my_p;
-	(void)bad_p;
-	*(my_p->last_pos + 1) > *(bad_p->last_pos + 1) ?
-		up_walls_score(map, my_p) : down_walls_score(map, my_p);
 	while (MAP[y])
 	{
-		printf("MAP[%d]\t[%s]\n", y, MAP[y]);
+		while (MAP[y][x])
+		{
+			if (MAP[y][x] == '3' || MAP[y][x] == '8')
+			{
+				y == 0 ? MAP[y][x] += 10 : 0;
+				x == 0 ? MAP[y][x] += 10 : 0;
+				y == MAX_Y ? MAP[y][x] += 10 : 0;
+				x == MAX_X ? MAP[y][x] += 10 : 0;
+			}
+			++x;
+		}
+		x = 0;
+		printf("%s\n", MAP[y]);
 		++y;
+	}
+}
+
+int		intensity_for_each(t_map *map, int score, int nb)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while (y < MAX_Y)
+	{
+		while (x < MAX_X)
+		{
+			if (((H_MAP[y][x] == 99 + nb && nb != -1) || H_MAP[y][x] == nb) && H_MAP[y][x] != -2)
+			{
+				y > 0 && H_MAP[y - 1][x] == 50 ? H_MAP[y - 1][x] = score : 0;
+				y < MAX_Y - 1 && H_MAP[y + 1][x] == 50 ? H_MAP[y + 1][x] = score : 0;
+				x > 0 && H_MAP[y][x - 1] == 50 ? H_MAP[y][x - 1] = score : 0;
+				x < MAX_X - 1 && H_MAP[y][x + 1] == 50 ? H_MAP[y][x + 1] = score : 0;
+			}
+			++x;
+		}
+		x = 0;
+		++y;
+	}
+	return (nb + 1);
+}
+
+int		heatmap_not_ready(t_map *map)
+{
+	int		x;
+	int		y;
+
+	x = 0;
+	y = 0;
+	while (y < MAX_Y)
+	{
+		while (x < MAX_X)
+		{
+			if (H_MAP[y][x] == 50)
+				return (1);
+			++x;
+		}
+		x = 0;
+		++y;
+	}
+	return (0);
+}
+
+void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
+{
+(void)my_p;
+
+	int		i;
+	int		j;
+	int		nb;
+	int		score;
+
+	i = 0;
+	j = 0;
+	nb = -1;
+	score = 99;
+	map->max_x += 1;
+	map->max_y += 1;
+	map->heatmap = ft_memalloc(map->max_y * sizeof(int*));				//penser a free
+	while (i < map->max_y)
+	{
+		map->heatmap[i] = ft_memalloc(map->max_x * sizeof(int));			//penser a free
+		while (j < map->max_x)
+		{
+			map->heatmap[i][j] = MAP[i][j] == bad_p->char_player ? -1 : -2;
+			MAP[i][j] == '.' ? map->heatmap[i][j] = 50 : 0;
+			++j;
+		}
+		j = 0;
+		++i;
+	}
+	while (heatmap_not_ready(map)) // condition a revoir sa mere
+	{
+	ft_printf("max x %d  max y %dscore %d nb %d\n", MAX_X, MAX_Y, score, nb);
+		nb = intensity_for_each(map, score, nb);
+		++score;
+	}
+//	put_score_around_adv(map, -1);
+	i = 0;
+	j = 0;
+	while (i < 23)
+	{
+		ft_printf("{");
+		while (j < 40)
+		{
+			ft_printf("%4d", H_MAP[i][j]);
+			++j;
+		}
+		j = 0;
+		ft_printf("}\n");
+		++i;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 19:26:38 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/08 05:22:26 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/16 16:06:24 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ char			*ft_itoa(int n);
 char			*ft_itoa_base(long n, char *base);
 char			*ft_ultoa_base(unsigned long n, char *base);
 int				ft_power(int nb, int power);
+unsigned		ft_absolute(int n);	
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/02/15 15:38:25 by jrobin           ###   ########.fr        #
+#    Updated: 2018/02/19 02:38:53 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME_LIB= libft.a
 PATH_LIB= libft/
 
 CC=		gcc
-FLAGS=	-Wall -Wextra -Werror
+FLAGS=	-Wall -Wextra -Werror -g -fsanitize=address
 
 DIR_SRC:= filler_src/
 DIR_OBJ:= obj/
