@@ -6,37 +6,11 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 08:29:07 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/19 08:06:42 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/19 09:29:40 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
-
-void	put_score_around_wall_if_adv(t_map *map)
-{
-	int		x;
-	int		y;
-
-	x = 0;
-	y = 0;
-	while (MAP[y])
-	{
-		while (MAP[y][x])
-		{
-			if (MAP[y][x] == '3' || MAP[y][x] == '8')
-			{
-				y == 0 ? MAP[y][x] += 10 : 0;
-				x == 0 ? MAP[y][x] += 10 : 0;
-				y == MAX_Y ? MAP[y][x] += 10 : 0;
-				x == MAX_X ? MAP[y][x] += 10 : 0;
-			}
-			++x;
-		}
-		x = 0;
-		printf("%s\n", MAP[y]);
-		++y;
-	}
-}
 
 int		intensity_for_each(t_map *map, int score, int nb)
 {
@@ -110,28 +84,28 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
 			MAP[i][j] == '.' ? map->heatmap[i][j] = 50 : 0;
 			++j;
 		}
+		printf("i = %d, max x %d max y %d\n", i, MAX_X, MAX_Y);
 		j = 0;
 		++i;
 	}
-	while (heatmap_not_ready(map)) // condition a revoir sa mere
+	while (heatmap_not_ready(map))
 	{
-	ft_printf("max x %d  max y %dscore %d nb %d\n", MAX_X, MAX_Y, score, nb);
 		nb = intensity_for_each(map, score, nb);
 		++score;
 	}
-//	put_score_around_adv(map, -1);
+//AFFICHAGE DEBUG
 	i = 0;
 	j = 0;
-	while (i < 23)
+	while (i < MAX_Y)
 	{
-		ft_printf("{");
-		while (j < 40)
+		while (j < MAX_X)
 		{
 			ft_printf("%4d", H_MAP[i][j]);
 			++j;
 		}
 		j = 0;
-		ft_printf("}\n");
+		ft_printf("\n");
 		++i;
 	}
+//AFFICHAGE DEBUG fin
 }
