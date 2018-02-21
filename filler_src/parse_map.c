@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 08:29:07 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/21 21:31:03 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/21 21:50:08 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,23 @@ int		heatmap_not_ready(t_map *map)
 	return (0);
 }
 
-void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
+void	get_direction(t_filler *filler, t_player *my_p, t_player *adv)
 {
-(void)my_p;
+		filler->left_or_right = *my_p->last_pos < *adv->last_pos ? 1 : -1 ;
+		filler->up_or_down = *(my_p->last_pos + 1) < *(adv->last_pos + 1) ? -1 : 1 ;
+}
 
-	int		i;
-	int		j;
-	int		score;
+void	prepare_heatmap(t_map *map, t_player *my_p, t_player *adv)
+{
+	int			i;
+	int			j;
+	int			score;
+	t_filler	*filler;
 
 	i = 0;
 	j = 0;
 	score = 0;
+	filler = ft_memalloc(sizeof(t_filler));
 	map->max_x += 1;
 	map->max_y += 1;
 	map->heatmap = ft_memalloc(map->max_y * sizeof(int*));				//penser a free
@@ -78,19 +84,27 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
 		map->heatmap[i] = ft_memalloc(map->max_x * sizeof(int));			//penser a free
 		while (j < map->max_x)
 		{
-			map->heatmap[i][j] = MAP[i][j] == bad_p->char_player ? -1 : -2;
+			map->heatmap[i][j] = MAP[i][j] == adv->char_player ? -1 : -2;
 			MAP[i][j] == '.' ? map->heatmap[i][j] = 0 : 0;
 			++j;
 		}
 		j = 0;
 		++i;
 	}
+	get_direction(filler, my_p, adv);
 	while (heatmap_not_ready(map))
 	{
-		
 		intensity_for_each(map, score);
 		++score;
 	}
+
+
+
+
+
+
+
+
 //AFFICHAGE DEBUG
 	i = 0;
 	j = 0;
