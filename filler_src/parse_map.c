@@ -6,7 +6,7 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 08:29:07 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/19 09:29:40 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/21 21:23:05 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@ int		intensity_for_each(t_map *map, int score, int nb)
 	{
 		while (x < MAX_X)
 		{
-			if (((H_MAP[y][x] == 99 + nb && nb != -1) || H_MAP[y][x] == nb) && H_MAP[y][x] != -2)
+			(void)nb;
+			if ((H_MAP[y][x] == -1 && score == 0) || (H_MAP[y][x] == score && score))
 			{
-				y > 0 && H_MAP[y - 1][x] == 50 ? H_MAP[y - 1][x] = score : 0;
-				y < MAX_Y - 1 && H_MAP[y + 1][x] == 50 ? H_MAP[y + 1][x] = score : 0;
-				x > 0 && H_MAP[y][x - 1] == 50 ? H_MAP[y][x - 1] = score : 0;
-				x < MAX_X - 1 && H_MAP[y][x + 1] == 50 ? H_MAP[y][x + 1] = score : 0;
+				y > 0 && H_MAP[y - 1][x] == 0 ? H_MAP[y - 1][x] = score + 1 : 0;
+				y < MAX_Y - 1 && H_MAP[y + 1][x] == 0 ? H_MAP[y + 1][x] = score + 1 : 0;
+				x > 0 && H_MAP[y][x - 1] == 0 ? H_MAP[y][x - 1] = score + 1 : 0;
+				x < MAX_X - 1 && H_MAP[y][x + 1] == 0 ? H_MAP[y][x + 1] = score + 1 : 0;
 			}
 			++x;
 		}
 		x = 0;
 		++y;
 	}
-	return (nb + 1);
+	return (0);
 }
 
 int		heatmap_not_ready(t_map *map)
@@ -49,7 +50,7 @@ int		heatmap_not_ready(t_map *map)
 	{
 		while (x < MAX_X)
 		{
-			if (H_MAP[y][x] == 50)
+			if (H_MAP[y][x] == 0)
 				return (1);
 			++x;
 		}
@@ -71,7 +72,7 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
 	i = 0;
 	j = 0;
 	nb = -1;
-	score = 99;
+	score = 0;
 	map->max_x += 1;
 	map->max_y += 1;
 	map->heatmap = ft_memalloc(map->max_y * sizeof(int*));				//penser a free
@@ -81,16 +82,17 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
 		while (j < map->max_x)
 		{
 			map->heatmap[i][j] = MAP[i][j] == bad_p->char_player ? -1 : -2;
-			MAP[i][j] == '.' ? map->heatmap[i][j] = 50 : 0;
+			MAP[i][j] == '.' ? map->heatmap[i][j] = 0 : 0;
 			++j;
 		}
-		printf("i = %d, max x %d max y %d\n", i, MAX_X, MAX_Y);
 		j = 0;
 		++i;
 	}
 	while (heatmap_not_ready(map))
 	{
-		nb = intensity_for_each(map, score, nb);
+		
+		intensity_for_each(map, score, nb);
+		++nb;
 		++score;
 	}
 //AFFICHAGE DEBUG
