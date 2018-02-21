@@ -6,13 +6,13 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 08:29:07 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/21 21:23:05 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/21 21:31:03 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-int		intensity_for_each(t_map *map, int score, int nb)
+int		intensity_for_each(t_map *map, int score)
 {
 	int		x;
 	int		y;
@@ -23,7 +23,6 @@ int		intensity_for_each(t_map *map, int score, int nb)
 	{
 		while (x < MAX_X)
 		{
-			(void)nb;
 			if ((H_MAP[y][x] == -1 && score == 0) || (H_MAP[y][x] == score && score))
 			{
 				y > 0 && H_MAP[y - 1][x] == 0 ? H_MAP[y - 1][x] = score + 1 : 0;
@@ -66,12 +65,10 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
 
 	int		i;
 	int		j;
-	int		nb;
 	int		score;
 
 	i = 0;
 	j = 0;
-	nb = -1;
 	score = 0;
 	map->max_x += 1;
 	map->max_y += 1;
@@ -91,8 +88,7 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p)
 	while (heatmap_not_ready(map))
 	{
 		
-		intensity_for_each(map, score, nb);
-		++nb;
+		intensity_for_each(map, score);
 		++score;
 	}
 //AFFICHAGE DEBUG
