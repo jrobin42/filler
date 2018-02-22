@@ -6,13 +6,13 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 08:29:07 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/21 21:50:08 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/02/22 18:55:14 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filler.h"
 
-int		intensity_for_each(t_map *map, int score)
+int			intensity_for_each(t_map *map, int score)
 {
 	int		x;
 	int		y;
@@ -38,7 +38,7 @@ int		intensity_for_each(t_map *map, int score)
 	return (0);
 }
 
-int		heatmap_not_ready(t_map *map)
+int			heatmap_not_ready(t_map *map)
 {
 	int		x;
 	int		y;
@@ -59,14 +59,9 @@ int		heatmap_not_ready(t_map *map)
 	return (0);
 }
 
-void	get_direction(t_filler *filler, t_player *my_p, t_player *adv)
+t_filler	*prepare_heatmap(t_map *map, t_player *my_p, t_player *adv)
 {
-		filler->left_or_right = *my_p->last_pos < *adv->last_pos ? 1 : -1 ;
-		filler->up_or_down = *(my_p->last_pos + 1) < *(adv->last_pos + 1) ? -1 : 1 ;
-}
-
-void	prepare_heatmap(t_map *map, t_player *my_p, t_player *adv)
-{
+	(void)my_p;
 	int			i;
 	int			j;
 	int			score;
@@ -91,15 +86,13 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *adv)
 		j = 0;
 		++i;
 	}
-	get_direction(filler, my_p, adv);
 	while (heatmap_not_ready(map))
 	{
 		intensity_for_each(map, score);
 		++score;
 	}
 
-
-
+/*
 
 
 
@@ -120,4 +113,10 @@ void	prepare_heatmap(t_map *map, t_player *my_p, t_player *adv)
 		++i;
 	}
 //AFFICHAGE DEBUG fin
+
+
+
+*/
+
+	return(filler);
 }
