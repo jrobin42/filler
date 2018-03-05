@@ -6,32 +6,24 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 07:34:05 by jrobin            #+#    #+#             */
-/*   Updated: 2018/02/19 03:20:22 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/04 18:31:43 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLER_H
 # define FILLER_H
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include "libft_str.h"
-# include "ft_printf.h"
+# include "../libft/inc/ft_printf.h"
 # include <stdio.h>
 
-# define MAP map->map
-# define H_MAP map->heatmap
-# define MAX_X map->max_x
-# define MAX_Y map->max_y
-
-typedef struct	s_player
-{
-	char		char_player;
-	int			last_pos[2]; //0 -> x & 1 -> y
-}				t_player;
+# define MAP filler->map.map
+# define H_MAP filler->map.heatmap
+# define M_MAX_X filler->map.max_x
+# define M_MAX_Y filler->map.max_y
 
 typedef struct	s_map
 {
@@ -41,16 +33,48 @@ typedef struct	s_map
 	int			**heatmap;
 }				t_map;
 
+# define PIECE filler->piece.piece
+# define P_MAX_X filler->piece.max_x
+# define P_MAX_Y filler->piece.max_y
+# define NB_STARS (filler->piece.nb_stars)
+# define P_AXE_X (filler->piece.axe_x)
+# define P_AXE_Y (filler->piece.axe_y)
+
 typedef struct	s_piece
 {
 	char		**piece;
+	int			nb_stars;
 	int			max_x;
 	int			max_y;
+	int			*axe_x;
+	int			*axe_y;
 }				t_piece;
 
-//int				parse_map(char *line, int i, t_map *map, t_player *player);
-void			parse_piece(t_piece *piece);
-void			prepare_heatmap(t_map *map, t_player *my_p, t_player *bad_p);
-//void			put_piece(t_piece *piece, t_map *map);
+# define OFF_X filler->offset_x
+# define OFF_Y filler->offset_y
+# define ADV filler->adv_char
+# define ME filler->my_char
+# define BEST_SCORE filler->best_score
+# define BEST_X filler->best_x
+# define BEST_Y filler->best_y
+
+typedef struct	s_filler
+{
+	int			best_x;
+	int			best_y;
+	long		best_score;
+	int			offset_x;
+	int			offset_y;
+	int			not_finish;
+	char		my_char;
+	char		adv_char;
+	t_piece		piece;
+	t_map		map;
+}				t_filler;
+
+int				parse_piece(t_filler *filler);
+int				parse_map(t_filler *filler, int index_line, char *line);
+int				prepare_heatmap(t_filler *filler);
+int				search_best_pos(t_filler *filler);
 
 #endif
