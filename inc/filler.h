@@ -6,19 +6,15 @@
 /*   By: jrobin <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/08 07:34:05 by jrobin            #+#    #+#             */
-/*   Updated: 2018/03/04 18:31:43 by jrobin           ###   ########.fr       */
+/*   Updated: 2018/03/05 18:54:33 by jrobin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLER_H
 # define FILLER_H
 
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
 # include "libft_str.h"
-# include "../libft/inc/ft_printf.h"
-# include <stdio.h>
+# include "ft_printf.h"
 
 # define MAP filler->map.map
 # define H_MAP filler->map.heatmap
