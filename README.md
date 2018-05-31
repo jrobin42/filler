@@ -4,7 +4,10 @@ This project is a little game where two players are fighting on a map.<br />
 They play turn by turn **putting a piece** - *given by the vm* - on the **map**.<br />
 The **game ends** when the map is **full**.<br />
 The **winner** will be the one which has put **the most of pieces**.<br />
-
+<br />
+My role in this project was to code a better player than the others - *which are in the `players` repository* -.<br />
+I did a flood fill algorithm.<br />
+<br />
 ### Install and compile 
 
 #### Steps
