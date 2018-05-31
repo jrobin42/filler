@@ -6,7 +6,7 @@
 #    By: jrobin <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/11 19:28:47 by jrobin            #+#    #+#              #
-#    Updated: 2018/03/04 19:10:09 by jrobin           ###   ########.fr        #
+#    Updated: 2018/05/31 15:49:54 by jrobin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,13 @@ NAME_LIB= libft.a
 PATH_LIB= libft/
 LIB = $(PATH_LIB)$(NAME_LIB)
 
-PATH_INC= inc/
+PATH_INC= includes/
 
 CC=		gcc
 FLAGS=	-Wall -Wextra -Werror
 
 DIR_SRC:= sources/
-DIR_OBJ:= obj/
+DIR_OBJ:= objets/
 
 SRC_BASE= filler.c \
 		  piece.c \
@@ -38,7 +38,7 @@ $(LIB):
 	@make -C libft
 
 $(NAME): $(LIB) $(DIR_OBJ) $(OBJS) Makefile
-	@$(CC) $(FLAGS) $(OBJS) $(PATH_LIB)$(NAME_LIB) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) $(PATH_LIB)$(NAME_LIB) -o players/$(NAME)
 	@echo "\033[32mjrobin.filler ok\033[0m"
 
 DEBUG: 
@@ -58,7 +58,7 @@ clean:
 
 fclean: clean
 	@rm -f $(LIB)
-	@rm -f $(NAME)
+	@rm -f players/$(NAME)
 
 re: fclean all
 
