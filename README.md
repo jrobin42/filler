@@ -1,8 +1,8 @@
 # Filler
 
 This project is a little game where two players are fighting on a map.<br />
-They play each at their turn by **putting a piece** - *given by the vm* - on the **map**.<br />
-The **game ends** when both of players **can not put the piece** that the vm give to them.<br />
+They play turn by turn **putting a piece** - *given by the vm* - on the **map**.<br />
+The **game ends** when the map is **full**.<br />
 The **winner** will be the one which has put **the most of pieces**.<br />
 
 ### Install and compile 
@@ -23,7 +23,7 @@ Now everything is ready to **play** !<br />
 ### Example of launch
 
 You will see that there is a repository of `maps` and an other of `players`.<br />
-The one I code is named jrobin.filler.<br />
+The one I coded is named jrobin.filler.<br />
 <br />
 To test it - *against `abanlin`'s player for example on the map named `map01`* -, run the vm this way :<br />
 `./filler_vm -f maps/map01 -p1 players/jrobin.filler -p2 players/abanlin.filler`<br />
