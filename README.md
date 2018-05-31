@@ -7,7 +7,7 @@ The **winner** will be the one which has put **the most of pieces**.<br />
 <br />
 My role in this project was to code a better player than the others - *which are in the `players` repository* -.<br />
 I did a flood fill algorithm.<br />
-<br />
+
 ### Install and compile 
 
 #### Steps
