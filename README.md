@@ -5,7 +5,7 @@ They play turn by turn **putting a piece** - *given by the vm* - on the **map**.
 The **game ends** when the map is **full**.<br />
 The **winner** will be the one which has put **the most of pieces**.<br />
 <br />
-My role in this project was to code a better player than the others - *which are in the `players` repository* - in C.<br />
+My role in this project was to code a better player than the others - *which are in the `players` repository* - **in C**.<br />
 I did a **heat map** to find the better place where put my piece.<br />
 
 ### Install and compile 
