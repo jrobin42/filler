@@ -6,7 +6,7 @@ The **game ends** when the map is **full**.<br />
 The **winner** will be the one which has put **the most of pieces**.<br />
 <br />
 My role in this project was to code a better player than the others - *which are in the `players` repository* -.<br />
-I did a flood fill algorithm.<br />
+I did a **heat map** to find the better place where put my piece.<br />
 
 ### Install and compile 
 
