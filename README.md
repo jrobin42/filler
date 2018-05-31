@@ -13,7 +13,7 @@ I did a **heat map** to find the better place where put my piece.<br />
 #### Steps
 1. `git clone https://github.com/jrobin42/filler.git ~/filler`<br />
 2. `cd ~/filler`<br />
-3. `make`<br />
+3. `git submodule init libft && git submodule update && make`
 
 Now everything is ready to **play** !<br />
 
