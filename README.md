@@ -19,7 +19,7 @@ Now everything is ready to **play** !<br />
 
 ### Usage of the program
 
-`./filler_vm -f {MAP} -p1 {FIRST_PLAYER} -p2 {SECOND_PLAYER}`<br />
+`./filler_vm.exe -f {MAP} -p1 {FIRST_PLAYER} -p2 {SECOND_PLAYER}`<br />
 <br />
 *Note that all of the players has the `.filler` extension.*
 
@@ -29,7 +29,7 @@ You will see that there is a repository of `maps` and an other of `players`.<br 
 The one I coded is named jrobin.filler.<br />
 <br />
 To test it - *against `abanlin`'s player for example on the map named `map01`* -, run the vm this way :<br />
-`./filler_vm -f maps/map01 -p1 players/jrobin.filler -p2 players/abanlin.filler`<br />
+`./filler_vm.exe -f maps/map01 -p1 players/jrobin.filler -p2 players/abanlin.filler`<br />
 <br />
 First player will be the one with **O** pieces and the second with **X** pieces.<br />
 <br />
